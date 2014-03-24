@@ -11,17 +11,52 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140324150523) do
+ActiveRecord::Schema.define(version: 20140324213651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "comments", force: true do |t|
+    t.integer  "user_id",    null: false
+    t.text     "body",       null: false
+    t.integer  "post_id",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "interest_groups", force: true do |t|
     t.string   "name",        null: false
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "creator",     null: false
+    t.integer  "creator_id"
+  end
+
+  create_table "participants", force: true do |t|
+    t.integer  "user_id",           null: false
+    t.integer  "interest_group_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "posts", force: true do |t|
+    t.integer  "poster_id",         null: false
+    t.string   "title",             null: false
+    t.text     "body",              null: false
+    t.date     "posted_at",         null: false
+    t.integer  "interest_group_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "users", force: true do |t|
+    t.string   "first_name",     null: false
+    t.string   "last_name",      null: false
+    t.string   "email",          null: false
+    t.string   "launcher_or_ee", null: false
+    t.text     "fun_fact"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

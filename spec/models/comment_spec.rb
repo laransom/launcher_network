@@ -6,7 +6,7 @@ describe Comment do
   let(:user_group) {User.create!(first_name: 'Louise', last_name: 'Kessel', email: 'email@net.com', launcher_or_ee: 'Launcher')}
   let(:interest_group) {InterestGroup.create!(name: 'Steve', creator: user_group)}
   let(:post) {Post.create!(poster: poster, title: 'Stuff', body: 'is definitely stuff', posted_at: Time.now, interest_group: interest_group)}
-  let(:valid_attrs) { { user: user, body: 'This is the body', post: post}}
+  let(:valid_attrs) { { user: user, body: 'This is the body', post: post }}
 
   describe 'validations' do
     context 'when given valid attributes' do

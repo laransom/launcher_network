@@ -8,8 +8,8 @@ class Post < ActiveRecord::Base
   belongs_to :interest_group
   has_many :comments
 
-  def self.favorite
-    order("comments_count DESC").limit(3).take
+  def self.favorites
+    where("comments_count IS NOT NULL").order("comments_count DESC").limit(3)
   end
 
 end

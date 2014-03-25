@@ -52,13 +52,41 @@ describe InterestGroup do
       group = InterestGroup.create(group_attributes)
       expect(group.creator).to eq creator
     end
+  end
 
-    describe 'instance methods' do
-      describe '#number_of_posts' do
 
-      end
+  describe "number_of_posts" do
+    it 'returns the number of posts' do
+      interest_group = InterestGroup.create!(valid_attrs)
+      interest_group_no_posts = InterestGroup.create!(valid_attrs)
+      poster = User.create!(first_name: 'Joe', last_name: 'Schmo', email: 'someone@somthing.com', launcher_or_ee: 'Launcher')
+      post_1 = Post.create!(poster: poster, title: 'Stuff', body: 'is definitely stuff', posted_at: Time.now, interest_group: interest_group)
+      post_2 = Post.create!(poster: poster, title: 'TDD', body: 'is lifezz', posted_at: Time.now, interest_group: interest_group)
+      expect(interest_group.posts.count).to eq(2)
+      expect(interest_group_no_posts.posts.count).to eq(0)
     end
   end
+
+  describe "most popular posts" do
+    it 'returns the 3 most popular posts by comments' do
+      interest_group = InterestGroup.create!(valid_attrs)
+      poster = User.create!(first_name: 'Joe', last_name: 'Schmo', email: 'someone@somthing.com', launcher_or_ee: 'Launcher')
+      post_1 = Post.create!(poster: poster, title: 'Stuff', body: 'is definitely stuff', posted_at: Time.now, interest_group: interest_group)
+      post_2 = Post.create!(poster: poster, title: 'TDD', body: 'is lifezz', posted_at: Time.now, interest_group: interest_group)
+      post_3 = Post.create!(poster: poster, title: 'Hey', body: 'Mick Jagger is Boss', posted_at: Time.now, interest_group: interest_group)
+      post_4 = Post.create!(poster: poster, title: 'You', body: '*dancing*', posted_at: Time.now, interest_group: interest_group)
+      comment_1 = Comment.create!(user: poster, body: 'This is the body', post: post_1)
+      comment_2 = Comment.create!(user: poster, body: 'Moar Comments', post: post_1)
+      comment_3 = Comment.create!(user: poster, body: 'Different post', post: post_4)
+      comment_4 = Comment.create!(user: poster, body: 'Hartford Whalers are amazing', post: post_3)
+      # binding.pry
+      expect(Post.favorites).to match_array([post_1, post_3, post_4])
+
+
+    end
+  end
+
+
 
 end
 

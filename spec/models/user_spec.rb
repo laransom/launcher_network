@@ -48,6 +48,45 @@ describe User do
     expect(user_without_fact).to be_valid
   end
 
+
+  describe 'number_of_posts' do
+    it 'returns the number of posts' do
+      user_1 = User.create(valid_attrs)
+      user_2 = User.create(first_name: 'Lana', last_name: 'Kane', email: 'isis@isis.edu', launcher_or_ee: 'Launcher')
+      interest_group = InterestGroup.create(name: 'Team Kick Ass', creator: user_2)
+      post_1 = Post.create(poster: user_1, title: 'Stuff', body: 'is definitely stuff', posted_at: Time.now, interest_group: interest_group)
+      post_2 = Post.create(poster: user_1, title: 'TDD', body: 'is lifezz', posted_at: Time.now, interest_group: interest_group)
+      expect(user_1.posts.count).to eq(2)
+      expect(user_2.posts.count).to eq(0)
+    end
+  end
+  describe 'number_of_comments' do
+    it 'returns the number of commnets' do
+      user_1 = User.create(valid_attrs)
+      user_2 = User.create(first_name: 'Lana', last_name: 'Kane', email: 'isis@isis.edu', launcher_or_ee: 'Launcher')
+      interest_group = InterestGroup.create(name: 'Team Kick Ass', creator: user_2)
+      post = Post.create(poster: user_1, title: 'Stuff', body: 'is definitely stuff', posted_at: Time.now, interest_group: interest_group)
+      comment_1 = Comment.create(user: user_1, body: 'This is the body', post: post)
+      comment_2 = Comment.create(user: user_1, body: 'This is a great post!', post: post)
+      expect(user_1.comments.count).to eq(2)
+      expect(user_2.comments.count).to eq(0)
+    end
+  end
+  describe 'group membership' do
+    it 'returns groups user is participating in' do
+      user_1 = User.create!(valid_attrs)
+      user_2 = User.create!(first_name: 'Lana', last_name: 'Kane', email: 'isis@isis.edu', launcher_or_ee: 'Launcher')
+      user_3 = User.create!(first_name: 'Cyril', last_name: 'Figgus', email: 'controller@isis.edu', launcher_or_ee: 'Launcher')
+      interest_group_1 = InterestGroup.create!(name: 'Team Kick Ass', creator: user_2)
+      interest_group_2 = InterestGroup.create!(name: 'Living in Space', creator: user_2)
+      participant_1 = Participant.create!(user: user_2, interest_group: interest_group_1)
+      participant_2 = Participant.create!(user: user_2, interest_group: interest_group_2)
+      participant_3 = Participant.create!(user: user_1, interest_group: interest_group_2)
+      expect(user_1.interest_groups.count).to eq(1)
+      expect(user_2.interest_groups.count).to eq(2)
+      expect(user_3.interest_groups.count).to eq(0)
+    end
+  end
 end
 
 

@@ -6,5 +6,9 @@ class User < ActiveRecord::Base
   has_many :interest_groups
   has_many :participants
   has_many :comments
-  has_many :posts
+  has_many :posts, foreign_key: 'poster_id'
+  has_many :created_interest_groups, class_name: "InterestGroup", foreign_key: "creator_id"
+  has_many :participants
+  has_many :interest_groups, through: :participants
+
 end

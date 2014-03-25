@@ -11,5 +11,6 @@ describe Participant do
       expect(participant.interest_group).to eq interest_group
     end
   end
+
 end
 

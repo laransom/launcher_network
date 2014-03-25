@@ -7,4 +7,9 @@ class Post < ActiveRecord::Base
   belongs_to :poster, class_name: "User"
   belongs_to :interest_group
   has_many :comments
+
+  def self.favorite
+    order("comments_count DESC").limit(3).take
+  end
+
 end

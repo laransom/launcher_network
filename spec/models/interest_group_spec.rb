@@ -23,7 +23,7 @@ describe InterestGroup do
   it 'requires a creator' do
   interest_group = InterestGroup.new(valid_attrs.merge(creator: nil))
   expect(interest_group).to_not be_valid
-  expect(interest_group.errors[:creator_id]).to_not be_blank
+  expect(interest_group.errors[:creator_id]).to include "can't be blank"
 
   end
 
@@ -51,6 +51,12 @@ describe InterestGroup do
       }
       group = InterestGroup.create(group_attributes)
       expect(group.creator).to eq creator
+    end
+
+    describe 'instance methods' do
+      describe '#number_of_posts' do
+
+      end
     end
   end
 

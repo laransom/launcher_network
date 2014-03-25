@@ -6,4 +6,9 @@ class InterestGroup < ActiveRecord::Base
   belongs_to :creator, class_name: "User"
   has_many :posts
   has_many :participants
+
+  # def number_of_posts
+  #   Post.count(:group_id).where(group_id: InterestGroup.id)
+  # end
+
 end
